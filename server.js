@@ -137,7 +137,7 @@ app.get('/api/products/get/:productId', (req, res) => {
     res.json({
       status: 200,
       message: 'Product getted',
-      products: result,
+      product: result[0],
     });
   });
 });
@@ -165,7 +165,41 @@ app.get('/api/products/search/:searchInfo', (req, res) => {
   });
 });
 
-// CRUD de todas la tablas
+// Get de todos los departamentos
+app.get('/api/departments', (req, res) => {
+  pool.query('SELECT * FROM departments', function (error, result, fields) {
+    if (error) {
+      console.log(error);
+      res.json({
+        status: 500,
+        message: 'Error in sql statement',
+      });
+    }
+    res.json({
+      status: 200,
+      message: 'Departments getted',
+      departments: result,
+    });
+  });
+});
+
+// Get de todas las tiendas
+app.get('/api/stores', (req, res) => {
+  pool.query('SELECT * FROM stores', function (error, result, fields) {
+    if (error) {
+      console.log(error);
+      res.json({
+        status: 500,
+        message: 'Error in sql statement',
+      });
+    }
+    res.json({
+      status: 200,
+      message: 'Stores getted',
+      stores: result,
+    });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Api de Express escuchando en el puerto ${port}`);
