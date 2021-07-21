@@ -13,5 +13,8 @@
     "mysql": "^2.18.1"
   },
   "author": "Edwin Garcés <edwingarcessaucedo@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
