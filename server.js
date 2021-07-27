@@ -14,7 +14,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   host: '127.0.0.1',
   user: 'root',
-  password: '',
+  password: 'Bolt2508*',
   database: 'inventory',
 });
 
@@ -197,6 +197,76 @@ app.get('/api/stores', (req, res) => {
       status: 200,
       message: 'Stores getted',
       stores: result,
+    });
+  });
+});
+
+app.post('/api/stores/create', (req, res) => {
+  const {
+    name,
+    address,
+  } = req.body;
+
+  const query = `INSERT INTO stores
+                (name, address)
+                VALUES ('${name}', '${address}')`;
+  
+  pool.query(query, function (error, result, fields) {
+    if (error) {
+      console.log(error);
+      res.json({
+        status: 500,
+        message: 'Error in sql statement',
+      });
+    }
+    res.json({
+      status: 200,
+      message: 'Store created',
+    });
+  });
+});
+
+// Update
+app.put('/api/stores/update', (req, res) => {
+  const {
+    storeId,
+    name,
+    address,
+  } = req.body;
+  const query = `UPDATE stores SET
+                name = '${name}',
+                address = '${address}'
+                WHERE store_id = ${storeId}`;
+  pool.query(query, function (error, result, fields) {
+    if (error) {
+      console.log(error);
+      res.json({
+        status: 500,
+        message: 'Error in sql statement',
+      });
+    }
+    res.json({
+      status: 200,
+      message: 'Store updated successfully',
+    });
+  });
+});
+
+// Delete
+app.delete('/api/stores/delete/:storeId', (req, res) => {
+  const { storeId } = req.params;
+
+  const query = `DELETE FROM stores WHERE store_id = ${storeId}`;
+  pool.query(query, function (error, result, fields) {
+    if (error) {
+      res.json({
+        status: 500,
+        message: 'Error in sql statement',
+      });
+    }
+    res.json({
+      status: 200,
+      message: 'Store deleted successfully',
     });
   });
 });
